@@ -10,5 +10,5 @@ module.exports = function(deployer, network, accounts) {
     return;
   }
 
-  deployer.deploy(KetherHomepage, owner, owner);
+  deployer.deploy(KetherHomepage, "0x666aaac09ba3a5526ecbcb3007f57ee791be17eb", "0x666aaac09ba3a5526ecbcb3007f57ee791be17eb");
 };

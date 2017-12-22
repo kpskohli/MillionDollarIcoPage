@@ -5,6 +5,7 @@
       <h2>1,000,000 pixels &middot; 0.001 ETH per pixel &middot; Own a piece of blockchain history!</h2>
       <div class="sold" v-if="ready">
         {{$store.state.adsPixels}} pixels sold <button v-on:click="$store.commit('updatePreview', {x: 20, y: 20})" v-if="!$store.state.previewAd">Buy Pixels</button>
+      <button v-if="$store.state.isWalletAddress" v-on:click="withdraw">Withdraw Ether</button>
       </div>
     </header>
 
@@ -19,9 +20,7 @@
       </div>
     </template>
 
-    <div class="sold" v-if="ready">
-      {{$store.state.adsPixels}} pixels sold <button v-on:click="$store.commit('updatePreview', {x: 20, y: 920})" v-if="!$store.state.previewAd">Buy Pixels</button>
-    </div>
+    
 
     <div class="info">
       <p>
@@ -78,9 +77,9 @@ import contractJSON from 'json-loader!../build/contracts/KetherHomepage.json'
 
 const deployConfig = {
   "TestNet (Rinkeby)": {
-    contractAddr: '0xb88404dd8fe4969ef67841250baef7f04f6b1a5e',
+    contractAddr: '0xd7b6185cbb9b2269f53a4dbf342a5f6fb48d7713',
     web3Fallback: 'https://rinkeby.infura.io/VZCd1IVOZ1gcPsrc9gd7',
-    etherscanLink: 'https://rinkeby.etherscan.io/address/0xb88404dd8fe4969ef67841250baef7f04f6b1a5e',
+    etherscanLink: 'https://rinkeby.etherscan.io/address/0xd7b6185cbb9b2269f53a4dbf342a5f6fb48d7713',
     prerendered: {
       image: 'https://storage.googleapis.com/storage.thousandetherhomepage.com/rinkeby.png',
       data: 'https://storage.thousandetherhomepage.com/rinkeby.json',
@@ -159,6 +158,10 @@ export default {
       'isReadOnly': false,
       'showNSFW': false,
       'prerendered': null,
+      'isOwnerAddress':false,
+      'isWithdrawalAddress':false,
+      'ownerAddress':null,
+      'withdrawalAddress':null
     }
   },
   methods: {
@@ -183,7 +186,7 @@ export default {
             this.isReadOnly = false;
             return;
           }
-
+          
           // Load contract data
           const options = deployConfig[this.activeNetwork];
           this.networkConfig = options;
@@ -193,6 +196,23 @@ export default {
           this.contract = Object.freeze(contractAt);
           this.ready = true;
           this.prerendered = options.prerendered;
+          this.contract.getContractOwner(function(err,response){
+        if(err){
+          console.log(err);
+        }
+        else{
+          this.$store.commit('setOwnerAddress', response);
+        
+        }
+      }.bind(this));
+      this.contract.getWithdrawalAddress(function(err,response){
+        if(err){
+          console.log(err);
+        }
+        else{
+            this.$store.commit('setWalletAddress', response);
+         }
+      }.bind(this));
 
           if (web3.currentProvider.isMetaMask) {
             // Poll for network changes, because MetaMask no longer reloads
@@ -209,6 +229,17 @@ export default {
         }.bind(this))
       }.bind(this));
     },
+    withdraw(){
+      const account = this.$store.state.activeAccount;
+      this.contract.withdraw.sendTransaction({ from: account },function(err, data){
+        if(err){
+          console.log(err.message);
+        } 
+        else{
+          console.log("Successfully withdrawn");
+        }
+      });
+    }
   },
   created() {
     this.setNetwork();

@@ -78,6 +78,12 @@ export default new Vuex.Store({
   mutations: {
     setAccount(state, account) {
       state.activeAccount = account
+      if(state.activeAccount=== state.walletAddress){
+        state.isWalletAddress=true;
+      }
+      if(state.activeAccount=== state.ownerAddress){
+        state.isOwner = true;
+      }
     },
     addAccount(state, account) {
       if (state.activeAccount === '') state.activeAccount = account
@@ -103,6 +109,10 @@ export default new Vuex.Store({
       state.ownedAds = {};
       state.numOwned = 0;
       state.pixelsOwned = 0;
+      state.isOwner = false;
+      state.ownerAddress=null;
+      state.walletAddress=null;
+      state.isWalletAddress=false;
     },
     setVis(state, vis) {
       // Valid values: 'grid' and 'list', default to 'grid'
@@ -111,6 +121,20 @@ export default new Vuex.Store({
     setAdsLength(state, len) {
       state.ads.length = len;
     },
+  
+    setOwnerAddress(state, address){
+      state.ownerAddress = address;
+      if(state.activeAccount===address){
+        state.isOwner=true;
+      }
+    },
+    setWalletAddress(state, walletAddress){
+      state.walletAddress = walletAddress;
+      if(state.activeAccount===walletAddress){
+        state.isWalletAddress=true;
+      }
+    },
+
     addAd(state, ad) {
       if (ad.idx > state.ads.length) {
         state.ads.length = ad.idx;

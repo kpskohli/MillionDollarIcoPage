@@ -12,6 +12,7 @@
   button {
     margin-left: 5px;
   }
+  
 }
 </style>
 
@@ -19,12 +20,18 @@
   <div class="container">
     <AdGrid v-if="$store.state.gridVis" :web3="web3" :contract="contract" :showNSFW="showNSFW" :isReadOnly="isReadOnly" :prerendered="prerendered"></AdGrid>
     <AdList v-else :showNSFW="showNSFW"></AdList>
-
+    <div class="left">
     <div class="edit" v-if="$store.state.numOwned > 0">
       {{$store.state.numOwned}} ads owned by you. <button v-on:click="showPublish = true" v-if="!showPublish">Edit Ads</button>
     </div>
     <Publish v-if="showPublish" :web3="web3" :contract="contract" :showNSFW="showNSFW"></Publish>
+  </div>
+  <div class="right" v-if="$store.state.isOwner"><div class="edit" v-if="$store.state.ads.length > 0">
+      {{$store.state.ads.length}} total ads. <button v-on:click="showFNSW = true" v-if="!showFNSW">Check ads</button>
+    </div>
+          <ForceNSFW v-if="showFNSW" :web3="web3" :contract="contract" :showFNSW="showFNSW"></ForceNSFW>
 
+    </div>
     <Offline v-if="isReadOnly"></Offline>
   </div>
 </template>
@@ -34,6 +41,7 @@ import AdGrid from './AdGrid.vue'
 import AdList from './AdList.vue'
 import Publish from './Publish.vue'
 import Offline from './Offline.vue'
+import ForceNSFW from './ForceNSFW.vue';
 
 function toAd(i, r) {
   return {
@@ -56,11 +64,16 @@ export default {
   data() {
     return {
       showPublish: false,
+      showFNSW:false
     }
   },
   methods: {
     loadAds() {
       this.$store.commit('clearAds');
+      
+      this.contract.getContractOwner(function(err, data){
+        console.log(data);
+      });
       this.contract.getAdsLength.call(function(err, res) {
         const num = res.toNumber();
         this.$store.commit('setAdsLength', num);
@@ -140,6 +153,7 @@ export default {
     Offline,
     AdGrid,
     AdList,
+    ForceNSFW
   },
 }
 </script>

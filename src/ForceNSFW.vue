@@ -53,10 +53,10 @@ input {
 
 <template>
   <div id="adPublish">
-    <form v-if="$store.state.numOwned > 0" v-on:submit='publish' v-on:submit.prevent>
+    <form v-if="$store.state.ads.length > 0" v-on:submit='forceNSFW' v-on:submit.prevent>
       <select v-model="ad">
-        <option disabled value="">Select ad to edit</option>
-        <option v-for="ad of $store.state.ownedAds" :value="ad">
+        <option disabled value="">Select ad to check</option>
+        <option v-for="ad of $store.state.ads" :value="ad">
           {{ad.width*10}}x{{ad.height*10}}px at ({{ad.x}}, {{ad.y}}): {{ ad.link || "(no link)" }}
         </option>
       </select>
@@ -72,22 +72,25 @@ input {
         </ul>
         <label>
           <span>Title</span>
-          <input type="text" v-model="ad.title" placeholder="Come visit MyCorp" />
+          <input type="text" v-model="ad.title" placeholder="Come visit MyCorp" disabled/>
         </label>
         <label>
           <span>Link</span>
-          <input type="text" v-model="ad.link" placeholder="https://..." />
+          <input type="text" v-model="ad.link" placeholder="https://..." disabled/>
           <small class="error" v-if="ad.link && ad.link.indexOf('://') === -1">Missing https://?</small>
         </label>
         <label>
           <span>Image</span>
-          <input type="text" v-model="ad.image" placeholder="https://...." />
+          <input type="text" v-model="ad.image" placeholder="https://...." disabled/>
           <small>URL to PNG image. Can be <code>https://</code>, <code>ipfs://</code>, <code>bzz://</code>, or <code>data:image/png,base64,...</code> encoded.<br />Must be less than 100KB.</small>
         </label>
         <label>
           <span>NSFW</span>
-          <input type="checkbox" v-model="ad.NSFW" />
-          <strong v-if="ad.forcedNSFW">Forced NSFW by moderator</strong>
+          <input type="checkbox" v-model="ad.NSFW" disabled/>
+        </label>
+        <label>
+          <span>Force NSFW</span>
+          <input type="checkbox" v-model="ad.forcedNSFW" />
         </label>
         <div>
           <h3>Preview <small>(not published yet)</small></h3>
@@ -104,7 +107,7 @@ input {
       </div>
     </form>
     <p v-else>
-      No purchased ads detected for active accounts. Listening to Purchase events on the blockchain...
+      No ads. Listening to Purchase events on the blockchain...
     </p>
 
     <p v-if="error" class="error">
@@ -125,17 +128,17 @@ export default {
     }
   },
   methods: {
-    publish() {
+    forceNSFW() {
       ga('send', {
         hitType: 'event',
         eventCategory: this.contract._network,
-        eventAction: 'publish-submit',
+        eventAction: 'forcensfw-submit',
       });
-      this.contract.publish.sendTransaction(this.ad.idx, this.ad.link, this.ad.image, this.ad.title, Number(this.ad.NSFW), { from: this.ad.owner }, function(err, res) {
+      this.contract.forceNSFW.sendTransaction(this.ad.idx, Number(this.ad.forcedNSFW), { from: this.$store.state.activeAccount }, function(err, res) {
         ga('send', {
           hitType: 'event',
           eventCategory: this.contract._network,
-          eventAction: 'publish-error',
+          eventAction: 'fnsw-error',
           eventLabel: JSON.stringify(err),
         });
 
@@ -147,7 +150,7 @@ export default {
         ga('send', {
           hitType: 'event',
           eventCategory: this.contract._network,
-          eventAction: 'publish-success',
+          eventAction: 'fnsw-success',
         });
       }.bind(this));
       return false;

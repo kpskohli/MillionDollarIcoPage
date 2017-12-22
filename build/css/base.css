@@ -9,6 +9,18 @@ a {
     text-decoration: none;
     cursor: pointer;
 }
+.left{
+    width:50%;
+    float:left;
+}
+.right{
+    width:40%;
+    float:left;
+
+}
+.info{
+    float:right;
+}
 a:hover {
     color: #70caa2;
 }

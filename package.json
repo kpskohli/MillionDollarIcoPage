@@ -11,6 +11,7 @@
     "truffle-test": "truffle test --network test"
   },
   "dependencies": {
+    "express": "^4.16.2",
     "vue": "^2.4.4",
     "vue-draggable-resizable": "^1.5.1",
     "vuex": "^2.4.1",

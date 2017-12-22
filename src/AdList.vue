@@ -25,7 +25,7 @@
     <p>Listing {{ num }} published ads and omitting {{ omitted }} empty ads.</p>
     <p><strong>Newest ad first:</strong></p>
 
-    <ul v-for="ad in listAds" v-if="ad && ad.image">
+    <ul v-for="ad in listAds" v-if="ad">
       <li>
         <Ad :showNSFW="showNSFW" :ad="ad"></Ad>
       </li>
@@ -48,12 +48,15 @@ export default {
     listAds() {
       let omitted = 0, num = 0;
       const ads = [];
-      for (let ad of this.$store.state.ads) {
-        if (!ad || !ad.image) {
+      var adsList = this.$store.state.ads;
+      for (var i=0; i< adsList.length;i++) {
+        if (!adsList[i] || !(adsList[i].image.trim().length>0 || (adsList[i].title!=undefined && !(adsList[i].title==="")))) {
           omitted += 1;
         }
+        else{
         num += 1;
-        ads.push(ad);
+        ads.push(adsList[i]);
+        }
       }
       ads.reverse();
       this.omitted = omitted;
