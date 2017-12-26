@@ -65,19 +65,19 @@ module.exports = {
   devtool: '#source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'The Thousand Ether Homepage · Own a piece of blockchain history!',
+      title: 'Million Dollar ICO Page!',
       filename: 'index.html',
       template: 'src/templates/index.ejs',
       inject: false
     }),
     new HtmlWebpackPlugin({
-      title: 'Press · The Thousand Ether Homepage',
+      title: 'Press · Million Dollar ICO Page',
       filename: 'press/index.html',
       template: 'src/templates/press.ejs',
       inject: false
     }),
     new HtmlWebpackPlugin({
-      title: 'FAQ · The Thousand Ether Homepage',
+      title: 'FAQ · Million Dollar ICO Page',
       filename: 'faq/index.html',
       template: 'src/templates/faq.ejs',
       inject: false

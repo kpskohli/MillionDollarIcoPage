@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
     <header>
-      <h1>The Thousand Ether Homepage</h1>
+      <h1>Million Dollar ICO Page</h1>
       <h2>1,000,000 pixels &middot; 0.001 ETH per pixel &middot; Own a piece of blockchain history!</h2>
       <div class="sold" v-if="ready">
         {{$store.state.adsPixels}} pixels sold <button v-on:click="$store.commit('updatePreview', {x: 20, y: 20})" v-if="!$store.state.previewAd">Buy Pixels</button>
@@ -32,11 +32,7 @@
     </div>
 
     <footer>
-      <ul>
-        <li><h3>Authors</h3></li>
-        <li><a href="https://keybase.io/shazow">shazow</a></li>
-        <li><a href="https://keybase.io/mveytsman">mveytsman</a></li>
-      </ul>
+      
       <ul>
         <li><h3>Project</h3></li>
         <li><a href="faq">FAQ</a></li>
