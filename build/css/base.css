@@ -18,6 +18,9 @@ a {
     float:left;
 
 }
+.error{
+    color:red;
+}
 .info{
     float:right;
 }

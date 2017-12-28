@@ -54,13 +54,21 @@ input {
 <template>
   <div id="adPublish">
     <form v-if="$store.state.numOwned > 0" v-on:submit='publish' v-on:submit.prevent>
-      <select v-model="ad">
+      <select v-model="ad" @change="addOwner(ad)">
         <option disabled value="">Select ad to edit</option>
         <option v-for="ad of $store.state.ownedAds" :value="ad">
           {{ad.width*10}}x{{ad.height*10}}px at ({{ad.x}}, {{ad.y}}): {{ ad.link || "(no link)" }}
         </option>
       </select>
       <div v-if="ad" class="editAd">
+        <br>
+         <label>
+          <span>Owner</span>
+          <input type="text" v-model="ad.owner" placeholder="Ad Owner" /><p v-if="sameOwner" class="error">Please specify another owner</p>
+        </label>
+        <div>
+        <input type="button" value="Change Owner" v-on:click="changeOwner"/>
+        </div>
         <p>
           What do you want your ad to look like? Some rules:
         </p>
@@ -122,16 +130,49 @@ export default {
     return {
       ad: false,
       error: null,
+      owner:null,
+      sameOwner:false
     }
   },
   methods: {
+    addOwner(ad){
+      this.owner=ad.owner;
+    },
+    changeOwner(){
+      if(this.ad.owner===this.owner){
+        this.sameOwner=true;
+      }
+      else{
+        this.sameOwner=false;
+        this.contract.setAdOwner.sendTransaction(this.ad.idx, this.ad.owner, { from: this.$store.state.activeAccount }, function(err, res) {
+        ga('send', {
+          hitType: 'event',
+          eventCategory: this.contract._network,
+          eventAction: 'changeowner-error',
+          eventLabel: JSON.stringify(err),
+        });
+
+        if (err) {
+          this.error = err;
+          return;
+        }
+                this.ad = false;
+
+        ga('send', {
+          hitType: 'event',
+          eventCategory: this.contract._network,
+          eventAction: 'changeowner-success',
+        });
+      }.bind(this));
+      }
+    },
     publish() {
       ga('send', {
         hitType: 'event',
         eventCategory: this.contract._network,
         eventAction: 'publish-submit',
       });
-      this.contract.publish.sendTransaction(this.ad.idx, this.ad.link, this.ad.image, this.ad.title, Number(this.ad.NSFW), { from: this.ad.owner }, function(err, res) {
+      this.contract.publish.sendTransaction(this.ad.idx, this.ad.link, this.ad.image, this.ad.title, Number(this.ad.NSFW), { from: this.$store.state.activeAccount }, function(err, res) {
         ga('send', {
           hitType: 'event',
           eventCategory: this.contract._network,

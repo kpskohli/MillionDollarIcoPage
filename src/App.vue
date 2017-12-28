@@ -37,7 +37,6 @@
         <li><h3>Project</h3></li>
         <li><a href="faq">FAQ</a></li>
         <li><a href="press">Press</a></li>
-        <li><a href="https://github.com/thousandetherhomepage">Source code</a></li>
       </ul>
       <ul>
         <li><h3>Blockchain</h3></li>
@@ -73,9 +72,9 @@ import contractJSON from 'json-loader!../build/contracts/KetherHomepage.json'
 
 const deployConfig = {
   "TestNet (Rinkeby)": {
-    contractAddr: '0xd7b6185cbb9b2269f53a4dbf342a5f6fb48d7713',
+    contractAddr: '0x1e7b646ba293258d8f5f896a3fc50d01f3d8b19d',
     web3Fallback: 'https://rinkeby.infura.io/VZCd1IVOZ1gcPsrc9gd7',
-    etherscanLink: 'https://rinkeby.etherscan.io/address/0xd7b6185cbb9b2269f53a4dbf342a5f6fb48d7713',
+    etherscanLink: 'https://rinkeby.etherscan.io/address/0x1e7b646ba293258d8f5f896a3fc50d01f3d8b19d',
     prerendered: {
       image: 'https://storage.googleapis.com/storage.thousandetherhomepage.com/rinkeby.png',
       data: 'https://storage.thousandetherhomepage.com/rinkeby.json',

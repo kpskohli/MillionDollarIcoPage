@@ -111,6 +111,18 @@ export default {
       for (const acct of res) {
         this.$store.commit('addAccount', acct)
       }
+    
+
+  this.contract.SetAdOwner({},{fromBlock: "latest", toBlock: 'pending'}).watch(function(err, res) {
+      if (err) {
+        // TODO: Surface this in UI?
+        console.log("Buy event monitoring disabled, will need to refresh to see changes.")
+        return;
+      }
+      this.$store.commit("changeAdOwner", res.args);
+      
+    }.bind(this));
+
     }.bind(this));
 
     if (!this.prerendered.loadFromWeb3) {
@@ -121,7 +133,7 @@ export default {
     this.loadAds();
 
     // Setup event monitoring:
-    this.contract.Buy().watch(function(err, res) {
+    this.contract.Buy({},{fromBlock: "latest", toBlock: 'pending'}).watch(function(err, res) {
       if (err) {
         // TODO: Surface this in UI?
         console.log("Buy event monitoring disabled, will need to refresh to see changes.")
@@ -131,14 +143,15 @@ export default {
       this.$store.commit('addAd', res.args);
 
       const previewAd = this.$store.state.previewAd;
-      if (this.previewLocked && Number(res.args.x*10) == previewAd.x && Number(res.args.y*10) == previewAd.y) {
+      if (previewAd && Number(res.args.x*10) == previewAd.x && Number(res.args.y*10) == previewAd.y) {
         // Colliding ad purchased
-        this.previewLocked = false;
         this.$store.commit('clearPreview');
       }
-    }.bind(this))
+    }.bind(this));
 
-    this.contract.Publish().watch(function(err, res) {
+     
+
+    this.contract.Publish({}, {fromBlock: "latest", toBlock: 'pending'}).watch(function(err, res) {
       if (err) {
         // TODO: Surface this in UI?
         console.log("Publish event monitoring disabled, will need to refresh to see changes.")

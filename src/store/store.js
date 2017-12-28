@@ -187,7 +187,20 @@ export default new Vuex.Store({
         state.grid.setBox(ad.x, ad.y, x2, y2);
       }
     },
+    changeAdOwner(state, ad){
+      if (state.ownedAds[ad.idx] !== undefined && ad.owner!==state.activeAccount) {
+        state.numOwned -= 1;
+        state.pixelsOwned -= ad.width * ad.height * 100;
+        delete state.ownedAds[ad.idx];
+      }
+      else if(state.ownedAds[ad.idx]===undefined && ad.owner===state.activeAccount){
+        state.numOwned += 1;
+        state.pixelsOwned += ad.width * ad.height * 100;
+        state.ownedAds[ad.idx] = ad;
+      }
+    },
   },
+ 
   getters: {
     isColliding: (state, getters) => (x1, y1, x2, y2) => {
       if (state.grid === null) {

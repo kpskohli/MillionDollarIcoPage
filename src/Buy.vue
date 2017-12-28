@@ -69,6 +69,9 @@ export default {
     price(height, width) {
       // Round up to the nearest 0.01
       // TODO: BigNumber?
+      if(this.$store.state.isOwner){
+        return 0;
+      }
       return Math.ceil(height * width * ethPerPixel * 100) / 100;
     },
     checkAccounts() {
@@ -102,10 +105,22 @@ export default {
         eventValue: weiPrice,
         eventLabel: ad.width + "x" + ad.height,
       });
+      if(this.$store.state.isOwner){
+        this.contract.reserveAdd.sendTransaction(x, y, width, height, { from: account }, function(err, res) {
+               this.buyResult(x,y,width,height,weiPrice,err, res);
 
+      }.bind(this));
+      }
+      else{
       this.contract.buy.sendTransaction(x, y, width, height, { value: weiPrice, from: account }, function(err, res) {
+        this.buyResult(x,y,width,height,weiPrice, err, res);
+        // TODO: Transition to Publish route?
+      }.bind(this));
+    }
+    },
+    buyResult(x,y,width, height,weiPrice,err, res){
         if (err) {
-          ga('send', {
+           ga('send', {
             hitType: 'event',
             eventCategory: this.contract._network,
             eventAction: 'buy-error',
@@ -127,10 +142,8 @@ export default {
           eventCategory: this.contract._network,
           eventAction: 'buy-success',
           eventValue: weiPrice,
-          eventLabel: ad.width + "x" + ad.height,
+          eventLabel: width + "x" + height,
         });
-        // TODO: Transition to Publish route?
-      }.bind(this));
     }
   },
 }

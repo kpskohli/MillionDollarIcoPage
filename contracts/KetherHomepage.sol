@@ -92,6 +92,26 @@ contract KetherHomepage {
         require(cost > 0);
         require(msg.value >= cost);
 
+       idx = addAd(_x, _y, _width, _height);
+        
+        return idx;
+    }
+
+  /// Ads must be purchased in 10x10 pixel blocks.
+    /// Each coordinate represents 10 pixels. That is,
+    ///   _x=5, _y=10, _width=3, _height=3
+    /// Represents a 30x30 pixel ad at coordinates (50, 100)
+    // add reserved by owner
+    //not payable
+    function reserveAdd(uint _x, uint _y, uint _width, uint _height) public returns (uint idx) {
+        require(contractOwner == msg.sender);
+        
+        idx = addAd(_x, _y, _width, _height);
+        
+        return idx;
+    }
+
+    function addAd(uint _x, uint _y, uint _width, uint _height)private returns(uint idx){
         // Loop over relevant grid entries
         for(uint i=0; i<_width; i++) {
             for(uint j=0; j<_height; j++) {
@@ -109,7 +129,7 @@ contract KetherHomepage {
         Buy(idx, msg.sender, _x, _y, _width, _height);
         return idx;
     }
-
+    
     /// Publish allows for setting the link, image, and NSFW status for the ad
     /// unit that is identified by the idx which was returned during the buy step.
     /// The link and image must be full web3-recognizeable URLs, such as:
