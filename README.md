@@ -1,6 +1,6 @@
-# ketherhomepage
+# MillionDollarIcoPage
 
-> Thousand Ether Homepage
+> Million Dollar ICO Homepage
 
 ## Build Setup
 
