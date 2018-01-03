@@ -72,9 +72,9 @@ import contractJSON from 'json-loader!../build/contracts/KetherHomepage.json'
 
 const deployConfig = {
   "TestNet (Rinkeby)": {
-    contractAddr: '0x1e7b646ba293258d8f5f896a3fc50d01f3d8b19d',
+    contractAddr: '0x324589bfd4738ab1542da57b4df1d7be6f4c1a33',
     web3Fallback: 'https://rinkeby.infura.io/VZCd1IVOZ1gcPsrc9gd7',
-    etherscanLink: 'https://rinkeby.etherscan.io/address/0x1e7b646ba293258d8f5f896a3fc50d01f3d8b19d',
+    etherscanLink: 'https://rinkeby.etherscan.io/address/0x324589bfd4738ab1542da57b4df1d7be6f4c1a33',
     prerendered: {
       image: 'https://storage.googleapis.com/storage.thousandetherhomepage.com/rinkeby.png',
       data: 'https://storage.thousandetherhomepage.com/rinkeby.json',
@@ -83,9 +83,9 @@ const deployConfig = {
     },
   },
   "MainNet": {
-    contractAddr: '0xb5fe93ccfec708145d6278b0c71ce60aa75ef925',
+    contractAddr: '0x03ad838d4d962fa6b187dc10e8513e595a32f889',
     web3Fallback: 'https://mainnet.infura.io/VZCd1IVOZ1gcPsrc9gd7',
-    etherscanLink: 'https://etherscan.io/address/0xb5fe93ccfec708145d6278b0c71ce60aa75ef925',
+    etherscanLink: 'https://etherscan.io/address/0x03ad838d4d962fa6b187dc10e8513e595a32f889',
     prerendered: {
       image: 'https://storage.googleapis.com/storage.thousandetherhomepage.com/mainnet.png',
       data: 'https://storage.thousandetherhomepage.com/mainnet.json',
