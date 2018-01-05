@@ -3,7 +3,7 @@
   background: #fffab2;
   width: 40em;
   padding: 5px 10px;
-  margin: 1em 0em;
+  margin: 1em 4.2em;
   font-size: 0.8rem;
 
   h3 {

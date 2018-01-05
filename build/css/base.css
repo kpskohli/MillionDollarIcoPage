@@ -59,10 +59,10 @@ article h2 {
     margin-bottom: 0.5em;
 }
 
-header, footer, .container {
+/*header, footer, .container {
     width: 1000px;
     margin: 1em auto;
-}
+}*/
 header h2 {
     margin-top: 0;
 }
