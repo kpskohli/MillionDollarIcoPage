@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script type="text/javascript">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+<script type="text/javascript">
+
  baseHref = document.location.protocol + '//' + document.location.host;
  if (document.location.pathname.startsWith('/ipfs') || document.location.pathname.startsWith('/ipns')) {
    baseHref += document.location.pathname.split('/').slice(0,3).join('/') + '/'
@@ -9,6 +11,10 @@
  }
  document.write('<base href="' + baseHref + '" />');
 </script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+
 <title>FAQ · Million Dollar ICO Page</title>
 <link rel="stylesheet" href="css/base.css" />
 <link rel="shortcut icon" type="image/png" href="img/icon-32px.png" />
@@ -39,12 +45,7 @@
 
         <h2>What do I get?</h2>
         <p>
-          The ThousandEtherHomapage is a homage to the famous MillionDollarHomepage. Our goal is to balance the authentic retro feel of the original project with a modern interpretation of Ethereum blockchain technology. What a time to be alive!
-        </p>
-
-        <h2>What do I get?</h2>
-        <p>
-          You get to buy a piece of blockchain history! At 0.001 ETH per pixel you can get a display ad and advertise anything you want, forever immortalized on the Ethereum blockchain.        </p>
+          You get to buy a piece of blockchain history! At 0.001 ETH per pixel you can immortalize you ICO forever on the Ethereum blockchain.        </p>
 
        
         <h2>Hasn’t this been done before?</h2>
@@ -69,7 +70,7 @@
         </p>
 
         <h2>What will you do with the money?</h2>
-        <p>Spend a lot of it and donate the rest. We'd like to fund cool projects if we can. Do you have any ideas? Email @ gurnor28@gmail.com!</p>
+        <p>Spend a lot of it and donate the rest. We'd like to fund cool projects if we can. Do you have any ideas? Email gurnor@milliondollaricopage.com!</p>
 
         <h2>What if I want to advertise my socially-questionable business?</h2>
         <p>
@@ -117,12 +118,12 @@
     </div>
     <script async src='https://www.google-analytics.com/analytics.js'></script>
     <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
       switch (window.location.hostname) {
         case "localhost":
         case "127.0.0.1":
           break;
         default:
-          window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
           ga('create', 'UA-105335104-1', 'auto');
           ga('send', 'pageview');
       }

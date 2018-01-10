@@ -66,10 +66,7 @@ export default {
       });
     },
     gridStyle(config) {
-      if (!config) return;
-      return {
-        'background-image': 'url(' + config.image + ')',
-      }
+      return;
     },
   },
   components: {
