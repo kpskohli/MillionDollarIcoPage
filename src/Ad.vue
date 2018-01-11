@@ -36,7 +36,6 @@ function adStyle(ad) {
 
 function blacklist(link) {
   // For now we are blacklisting for XSS. This is wrong, but we're in the process of building a whitelist that includes the interesting usecases we'd like to support (i.e. magnet links)
-  // See https://github.com/thousandetherhomepage/ketherhomepage/issues/7 for more
 
   let sanitized =  link.trim().toLowerCase();
   if (sanitized.startsWith('javascript:') || sanitized.startsWith('data:')) {
